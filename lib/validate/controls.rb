@@ -1,0 +1,8 @@
+require 'validate/controls/text'
+require 'validate/controls/raw_data'
+require 'validate/controls/serializer'
+require 'validate/controls/instance'
+require 'validate/controls/no_serializer'
+require 'validate/controls/no_serializer_methods'
+require 'validate/controls/no_format'
+require 'validate/controls/no_format_methods'
