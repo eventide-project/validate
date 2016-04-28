@@ -6,10 +6,8 @@ context "Serializer has no format namespace" do
     subject_const = Serialize.subject_const(example)
     serializer = Serialize.get_serializer(subject_const)
 
-    assert example do
-      error? Serialize::Error do
-        Serialize.format(serializer, :some_format)
-      end
+    assert proc { Serialize.format(serializer, :some_format) } do
+      raises_error? Serialize::Error
     end
   end
 end

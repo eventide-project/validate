@@ -5,10 +5,8 @@ context "Serializer namespace has no serializer methods" do
 
   context "Format" do
     test "Is an Error" do
-      assert example do
-        error? Serialize::Error do
-          Serialize.format(example, :some_format)
-        end
+      assert proc { Serialize.format(example, :some_format) } do
+        raises_error? Serialize::Error
       end
     end
   end
@@ -17,20 +15,16 @@ context "Serializer namespace has no serializer methods" do
     _ = nil
 
     test "Is an Error" do
-      assert example do
-        error? Serialize::Error do
-          Serialize::Read.instance(_, example)
-        end
+      assert proc { Serialize::Read.instance(_, example) } do
+        raises_error? Serialize::Error
       end
     end
   end
 
   context "Raw Data" do
     test "Is an Error" do
-      assert example do
-        error? Serialize::Error do
-          Serialize::Write.raw_data(example)
-        end
+      assert proc { Serialize::Write.raw_data(example) } do
+        raises_error? Serialize::Error
       end
     end
   end

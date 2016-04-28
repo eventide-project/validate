@@ -5,10 +5,8 @@ context "Format has no format methods" do
 
   context "Serialize" do
     test "Is an Error" do
-      assert example do
-        error? Serialize::Error do
-          Serialize::Write.(example, :some_format)
-        end
+      assert proc { Serialize::Write.(example, :some_format) } do
+        raises_error? Serialize::Error
       end
     end
   end
@@ -17,10 +15,8 @@ context "Format has no format methods" do
     text = Serialize::Controls::Text.example
 
     test "Is an Error" do
-      assert example do
-        error? Serialize::Error do
-          Serialize::Read.(text, example.class, :some_format)
-        end
+      assert proc { Serialize::Read.(text, example.class, :some_format) } do
+        raises_error? Serialize::Error
       end
     end
   end
