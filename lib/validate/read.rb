@@ -1,4 +1,4 @@
-module Serialize
+module Validate
   module Read
     extend Serialize
 

@@ -1,4 +1,4 @@
-module Serialize
+module Validate
   module Controls
     module NoValidator
       class Example
