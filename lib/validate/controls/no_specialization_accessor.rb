@@ -1,6 +1,6 @@
 module Validate
   module Controls
-    module NoValidatorMethods
+    module NoSpecializationAccessor
       class Example
         module Validator
         end
