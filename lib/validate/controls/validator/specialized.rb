@@ -7,17 +7,15 @@ module Validate
         end
 
         class Example
-          def self.some_specialization
-            SomeSpecialization
-          end
+          module Validator
+            def self.some_specialized_validator
+              SomeSpecialization
+            end
 
-          def self.instance
-            Example.new
-          end
-
-          module SomeSpecialization
-            def self.call(obj)
-              :some_specialized_result
+            module SomeSpecialization
+              def self.call(subject)
+                :some_specialized_result
+              end
             end
           end
         end
