@@ -14,4 +14,3 @@ puts RUBY_DESCRIPTION
 require_relative '../init.rb'
 
 require 'validate/controls'
-

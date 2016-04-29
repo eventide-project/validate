@@ -1,13 +1,17 @@
-module Serialize
+module Validate
   module Controls
-    class Example
-      module Validator
-        def self.(obj)
-          :some_default_result
-        end
+    module Validator
+      module Default
+        class Example
+          module Validator
+            def self.call(obj)
+              :some_default_result
+            end
 
-        def self.instance
-          Example.new
+            def self.instance
+              Example.new
+            end
+          end
         end
       end
     end

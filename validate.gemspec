@@ -2,7 +2,7 @@
 Gem::Specification.new do |s|
   s.name = 'validate'
   s.version = '0.1.0.0'
-  s.summary = 'Common interface and protocol for validating, and validation discovery'
+  s.summary = 'Common interface and protocol for validating and validation discovery'
   s.description = ' '
 
   s.authors = ['The Eventide Project']
