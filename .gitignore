@@ -10,5 +10,3 @@ gems
 materials
 *.gem
 *notes.*
-*_
-serialize*
