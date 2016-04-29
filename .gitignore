@@ -11,3 +11,4 @@ materials
 *.gem
 *notes.*
 *_
+serialize*
