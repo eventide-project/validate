@@ -4,22 +4,22 @@ module Validate
   class Error < RuntimeError; end
 
   def call(subject, specialization=nil)
-    validator = validator(subject)
+    validator = validator(subject, specialization)
     validator.(subject)
   end
 
-  def validator(subject)
+  def validator(subject, specialization)
     subject_const = subject_const(subject)
 
-    assure_validator(subject_const)
-    get_validator(subject_const)
+    assure_validator(subject_const, specialization)
+    get_validator(subject_const, specialization)
   end
 
   def subject_const(subject)
     [Module, Class].include?(subject.class) ? subject : subject.class
   end
 
-  def assure_validator(subject_const)
+  def assure_validator(subject_const, specialization)
     unless validator_const?(subject_const)
       raise Error, "#{subject_const.name} doesn't have a `Validator' namespace"
     end
@@ -29,12 +29,7 @@ module Validate
     subject_const.const_defined?(:Validator)
   end
 
-  def get_validator(subject_const)
+  def get_validator(subject_const, specialization)
     subject_const.const_get(:Validator)
-  end
-
-  def validator?(subject)
-    subject_const = subject_const(subject)
-    validator_const?(subject_const)
   end
 end
