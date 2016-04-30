@@ -31,6 +31,8 @@ end
 
 # Validation rules aren't always the same
 # Use specialized validators for particular cases
+# Provide accessor methods that retrieve the
+# specialized validators
 class Example2
   attr_accessor :some_attr
 
