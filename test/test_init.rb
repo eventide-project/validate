@@ -13,4 +13,6 @@ puts RUBY_DESCRIPTION
 
 require_relative '../init.rb'
 
+require 'ostruct'
+
 require 'validate/controls'

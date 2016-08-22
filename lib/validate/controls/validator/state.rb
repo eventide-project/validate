@@ -1,14 +1,15 @@
 module Validate
   module Controls
     module Validator
-      module Default
+      module State
         def self.example
           Example.new
         end
 
         class Example
           module Validator
-            def self.call(subject)
+            def self.call(subject, state)
+              state.entries << :some_entry
               true
             end
           end

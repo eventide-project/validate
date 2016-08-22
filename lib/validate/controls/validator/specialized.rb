@@ -14,7 +14,7 @@ module Validate
 
             module SomeSpecialization
               def self.call(subject)
-                :some_specialized_result
+                true
               end
             end
           end
