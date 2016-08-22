@@ -3,14 +3,38 @@ module Validate
 
   class Error < RuntimeError; end
 
-  def call(subject, specialization=nil)
+  def call(subject, specialization=nil, &record_state)
     validator = validator(subject)
 
     if specialization
       validator = specialization(validator, specialization)
     end
 
-    validator.(subject)
+    validate(validator, subject, &record_state)
+  end
+
+  def validate(validator, subject, &record_state)
+    method = validator.method(:call)
+
+    result = nil
+    case method.arity
+    when 1
+      if block_given?
+        raise Error, "State capture block is given but the validator does not provide a state parameter (Validator: #{validator})"
+      end
+
+      result = validator.public_send :call, subject
+    when 2
+      state = State.new
+      result = validator.public_send :call, subject, state
+      record_state.call(state) if block_given?
+    end
+
+    unless result.is_a?(TrueClass) || result.is_a?(FalseClass)
+      raise Error, "Result must be boolean. The result is a #{result.class}. (Validator: #{validator})"
+    end
+
+    result
   end
 
   def validator(subject)

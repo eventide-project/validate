@@ -6,6 +6,6 @@ context "Specialized Validate" do
 
     result = Validate.(example, :some_specialized_validator)
 
-    assert(result == :some_specialized_result)
+    assert(result == true)
   end
 end

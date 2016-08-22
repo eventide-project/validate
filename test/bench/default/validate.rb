@@ -6,6 +6,6 @@ context "Default Validate" do
 
     result = Validate.(example)
 
-    assert(result == :some_default_result)
+    assert(result)
   end
 end
