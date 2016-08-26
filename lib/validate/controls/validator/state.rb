@@ -9,7 +9,7 @@ module Validate
         class Example
           module Validator
             def self.call(subject, state)
-              state.entries << :some_entry
+              state << :some_entry
               true
             end
           end

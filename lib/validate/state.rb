@@ -7,5 +7,10 @@ module Validate
     def entries?
       !entries.empty?
     end
+
+    def push(entry)
+      entries.push(entry)
+    end
+    alias :<< :push
   end
 end
