@@ -8,6 +8,10 @@ module Validate
       !entries.empty?
     end
 
+    def each(&action)
+      entries.each(&action)
+    end
+
     def push(entry)
       entries.push(entry)
     end
