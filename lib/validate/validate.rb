@@ -3,14 +3,29 @@ module Validate
 
   class Error < RuntimeError; end
 
-  def call(subject, state=nil, scenario: nil)
+  def call(subject, state=nil, scenario: nil, scenarios: nil)
     validator = validator(subject)
 
-    if !scenario.nil?
-      validator = scenario(validator, scenario)
+    if scenarios.nil?
+      scenarios = scenario
+    end
+    scenarios = Array(scenarios)
+
+    if scenarios.empty?
+      validate(validator, subject, state)
+    else
+      validate_scenarios(validator, subject, state, scenarios)
+    end
+  end
+
+  def validate_scenarios(validator, subject, state, scenarios)
+    result = true
+    scenarios.each do |scenario|
+      scenario_validator = scenario(validator, scenario)
+      result = result && validate(scenario_validator, subject, state)
     end
 
-    validate(validator, subject, state)
+    result
   end
 
   def validate(validator, subject, state)
