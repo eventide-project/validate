@@ -19,7 +19,7 @@ module Validate
     result = nil
     case method.arity
     when 1
-      if block_given?
+      if !state.nil?
         raise Error, "State argument was supplied but the validator does not provide a state parameter (Validator: #{validator})"
       end
 
