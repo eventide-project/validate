@@ -32,7 +32,7 @@ module Validate
     method = validator.method(:call)
 
     result = nil
-    case method.arity
+    case method.parameters.length
     when 1
       if !state.nil?
         raise Error, "State argument was supplied but the validator does not provide a state parameter (Validator: #{validator})"
