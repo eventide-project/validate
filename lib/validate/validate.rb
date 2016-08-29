@@ -14,7 +14,6 @@ module Validate
   end
 
   def validate(validator, subject, state)
-pp validator
     method = validator.method(:call)
 
     result = nil
@@ -62,21 +61,21 @@ pp validator
   end
 
   def scenario(validator, scenario)
-    assure_specialization(validator, scenario)
-    get_specialization(validator, scenario)
+    assure_scenario(validator, scenario)
+    get_scenario(validator, scenario)
   end
 
-  def assure_specialization(validator, scenario)
-    unless specialization_method?(validator, scenario)
+  def assure_scenario(validator, scenario)
+    unless scenario_method?(validator, scenario)
       raise Error, "#{validator.name} doesn't have a `#{scenario}' scenario method"
     end
   end
 
-  def specialization_method?(validator, scenario)
+  def scenario_method?(validator, scenario)
     validator.respond_to?(scenario)
   end
 
-  def get_specialization(validator, scenario)
+  def get_scenario(validator, scenario)
     validator.public_send(scenario)
   end
 end
