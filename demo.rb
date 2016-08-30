@@ -139,3 +139,48 @@ valid = Validate.(e, scenarios: [:some_particular_scenario, :some_other_scenario
 test "Not valid" do
   refute(valid)
 end
+
+
+# Validators can provide contextual information
+# such as error messages, warnings, or any other
+# arbitrary information as part of the execution
+# of a validator. Pass an array, or any object
+# that implements the append (<<) operator, and
+# the validators can add information to it.
+class Example4
+  attr_accessor :some_attr
+
+  module Validator
+    def self.call(example, info=[])
+      info << 'All is well'
+      true
+    end
+
+    def self.some_scenario
+      SomeScenario
+    end
+
+    module SomeScenario
+      def self.call(example, info=[])
+        info << 'Oh oh! Something went wrong'
+        false
+      end
+    end
+  end
+end
+
+e = Example4.new
+
+info = []
+valid_1 = Validate.(e, info)
+valid_2 = Validate.(e, info, scenario: :some_scenario)
+
+valid = valid_1 && valid_2
+
+test "Not valid" do
+  refute(valid)
+end
+
+test "Validator info is collected" do
+  assert(info == ['All is well', 'Oh oh! Something went wrong'])
+end
