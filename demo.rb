@@ -30,9 +30,9 @@ end
 
 
 # Validation rules aren't always the same
-# Use specialized validators for particular cases
+# Use specialized validators for particular scenarios
 # Provide accessor methods that retrieve the
-# specialized validators
+# scenario validators
 class Example2
   attr_accessor :some_attr
 
@@ -62,30 +62,34 @@ end
 e = Example2.new
 
 e.some_attr = 'some invalid value'
-valid = Validate.(e, :some_particular_scenario)
+valid = Validate.(e, scenario: :some_particular_scenario)
 
 test "Not valid" do
   refute(valid)
 end
 
 e.some_attr = 'something' # some_attr is no longer nil
-valid = Validate.(e, :some_particular_scenario)
+valid = Validate.(e, scenario: :some_particular_scenario)
 
 test "Is valid" do
   assert(valid)
 end
 
 e.some_attr = 'some invalid value'
-valid = Validate.(e, :some_other_scenario)
+valid = Validate.(e, scenario: :some_other_scenario)
 
 test "Not valid" do
   refute(valid)
 end
 
 e.some_attr = 'something else'
-valid = Validate.(e, :some_other_scenario)
+valid = Validate.(e, scenario: :some_other_scenario)
 
 test "Is valid" do
   assert(valid)
 end
 
+# Many validators can be called at once by passing
+# a list of scenarios rather than a single scenario.
+# If any of the validators return false, the whole
+# list of validation is considered false
