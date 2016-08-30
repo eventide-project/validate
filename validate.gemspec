@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 Gem::Specification.new do |s|
   s.name = 'validate'
-  s.version = '0.3.1.1'
+  s.version = '0.3.1.2'
   s.summary = 'Interface and protocol for validating and validation discovery'
   s.description = ' '
 
