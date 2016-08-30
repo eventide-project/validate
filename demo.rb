@@ -15,6 +15,7 @@ class Example
 end
 
 e = Example.new # some_attr is nil
+
 valid = Validate.(e)
 
 test "Not valid" do
@@ -22,6 +23,7 @@ test "Not valid" do
 end
 
 e.some_attr = 'something' # some_attr is no longer nil
+
 valid = Validate.(e)
 
 test "Is valid" do
@@ -62,6 +64,7 @@ end
 e = Example2.new
 
 e.some_attr = 'some invalid value'
+
 valid = Validate.(e, scenario: :some_particular_scenario)
 
 test "Not valid" do
@@ -89,7 +92,50 @@ test "Is valid" do
   assert(valid)
 end
 
+
 # Many validators can be called at once by passing
 # a list of scenarios rather than a single scenario.
-# If any of the validators return false, the whole
-# list of validation is considered false
+# If any of the validators return false, the list
+# of validation is considered false.
+class Example3
+  attr_accessor :some_attr
+
+  module Validator
+    def self.some_particular_scenario
+      SomeValidator
+    end
+
+    def self.some_other_scenario
+      SomeOtherValidator
+    end
+
+    module SomeValidator
+      def self.call(example)
+        example.some_attr.include?('something')
+      end
+    end
+
+    module SomeOtherValidator
+      def self.call(example)
+        example.some_attr.include?('else')
+      end
+    end
+  end
+end
+
+e = Example3.new
+e.some_attr = 'something else'
+
+valid = Validate.(e, scenarios: [:some_particular_scenario, :some_other_scenario])
+
+test "Is valid" do
+  assert(valid)
+end
+
+e.some_attr = 'something'
+
+valid = Validate.(e, scenarios: [:some_particular_scenario, :some_other_scenario])
+
+test "Not valid" do
+  refute(valid)
+end
