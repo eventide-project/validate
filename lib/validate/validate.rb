@@ -19,14 +19,13 @@ module Validate
   end
 
   def validate_scenarios(validator, subject, state, scenarios)
+    result = true
     scenarios.each do |scenario|
       scenario_validator = scenario(validator, scenario)
-      unless validate(scenario_validator, subject, state)
-        return false
-      end
+      result = result & validate(scenario_validator, subject, state)
     end
 
-    true
+    result
   end
 
   def validate(validator, subject, state)

@@ -1,4 +1,4 @@
-module Validate
+ module Validate
   module Controls
     module Validator
       module Scenarios
@@ -19,14 +19,14 @@ module Validate
             module SomeScenario
               def self.call(subject, state)
                 state << :some_scenario
-                true
+                false
               end
             end
 
             module SomeOtherScenario
               def self.call(subject, state)
                 state << :some_other_scenario
-                false
+                true
               end
             end
           end
