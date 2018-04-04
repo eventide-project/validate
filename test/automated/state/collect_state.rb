@@ -1,4 +1,4 @@
-require_relative '../bench_init'
+require_relative '../automated_init'
 
 context "Collect State in Block Argument" do
   example = Validate::Controls::Validator::State.example

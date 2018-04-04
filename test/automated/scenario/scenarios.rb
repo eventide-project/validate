@@ -1,4 +1,4 @@
-require_relative '../bench_init'
+require_relative '../automated_init'
 
 context "Scenarios" do
   example = Validate::Controls::Validator::Scenarios.example

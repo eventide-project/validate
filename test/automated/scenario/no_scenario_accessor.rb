@@ -1,4 +1,4 @@
-require_relative '../bench_init'
+require_relative '../automated_init'
 
 context "Class Has No Validator Scenario Method" do
   example = Validate::Controls::NoScenarioAccessor.example

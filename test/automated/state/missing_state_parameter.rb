@@ -1,4 +1,4 @@
-require_relative '../bench_init'
+require_relative '../automated_init'
 
 context "Collect State When Validator Has No State Parameter" do
   example = Validate::Controls::Validator::Default.example

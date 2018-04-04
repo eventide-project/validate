@@ -1,4 +1,4 @@
-require_relative '../bench_init'
+require_relative '../automated_init'
 
 context "Default Validate" do
   example = Validate::Controls::Validator::Default.example
