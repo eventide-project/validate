@@ -1,9 +1,9 @@
 module Validate
   extend self
 
-  class Error < RuntimeError; end
+  Error = Class.new(RuntimeError)
 
-  def call(subject, state=nil, scenario: nil, scenarios: nil)
+  def __call(subject, state=nil, scenario: nil, scenarios: nil)
     validator = validator(subject)
 
     if scenarios.nil?
@@ -17,6 +17,66 @@ module Validate
       validate_scenarios(validator, subject, state, scenarios)
     end
   end
+
+  def call(subject, state=nil, scenario: nil, scenarios: nil)
+    if scenarios.nil?
+      scenarios = scenario
+    end
+    scenarios = Array(scenarios)
+
+    validator_reflection = validator_reflection(subject)
+
+    validator = validator_reflection.constant
+
+    # format_reflection = transformer_reflection.get(format_name)
+
+    # raw_data = raw_data(input, transformer_reflection)
+
+    # output = format_reflection.(:write, raw_data)
+
+    # logger.info { "Wrote (Format Name: #{format_name.inspect})" }
+    # logger.debug(tags: [:data, :output]) { output.pretty_inspect }
+
+    # output
+
+    if scenarios.empty?
+      validate(validator, subject, state)
+    else
+      validate_scenarios(validator, subject, state, scenarios)
+    end
+  end
+
+  def validator_reflection(subject)
+    subject_constant = Reflect.subject_constant(subject)
+
+    validator_name = validator_name(subject_constant)
+
+    if validator_name.nil?
+      raise Error, "#{subject_constant.name} doesn't have a Validate or Validator namespace"
+    end
+
+    Reflect.(subject, validator_name, strict: true)
+  end
+
+  def validator_name(subject_constant)
+    if validate_const?(subject_constant)
+      return :Validate
+    elsif validator_const?(subject_constant)
+      return :Validator
+    else
+      return nil
+    end
+  end
+
+  def validate_const?(subject_constant)
+    Reflect.constant?(subject_constant, :Validate)
+  end
+
+  def validator_const?(subject_constant)
+    Reflect.constant?(subject_constant, :Validator)
+  end
+
+
 
   def validate_scenarios(validator, subject, state, scenarios)
     result = true
