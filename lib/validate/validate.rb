@@ -3,46 +3,19 @@ module Validate
 
   Error = Class.new(RuntimeError)
 
-  def __call(subject, state=nil, scenario: nil, scenarios: nil)
-    validator = validator(subject)
-
-    if scenarios.nil?
-      scenarios = scenario
-    end
-    scenarios = Array(scenarios)
-
-    if scenarios.empty?
-      validate(validator, subject, state)
-    else
-      validate_scenarios(validator, subject, state, scenarios)
-    end
-  end
-
   def call(subject, state=nil, scenario: nil, scenarios: nil)
     if scenarios.nil?
       scenarios = scenario
     end
-    scenarios = Array(scenarios)
+    scenario_names = Array(scenarios)
 
     validator_reflection = validator_reflection(subject)
 
-    validator = validator_reflection.constant
-
-    # format_reflection = transformer_reflection.get(format_name)
-
-    # raw_data = raw_data(input, transformer_reflection)
-
-    # output = format_reflection.(:write, raw_data)
-
-    # logger.info { "Wrote (Format Name: #{format_name.inspect})" }
-    # logger.debug(tags: [:data, :output]) { output.pretty_inspect }
-
-    # output
-
-    if scenarios.empty?
-      validate(validator, subject, state)
+    if scenario_names.empty?
+      validator = validator_reflection.constant
+      validate(validator_reflection.constant, subject, state)
     else
-      validate_scenarios(validator, subject, state, scenarios)
+      validate_scenarios(validator_reflection, subject, state, scenario_names)
     end
   end
 
@@ -76,13 +49,18 @@ module Validate
     Reflect.constant?(subject_constant, :Validator)
   end
 
-
-
-  def validate_scenarios(validator, subject, state, scenarios)
+  def validate_scenarios(validator_reflection, subject, state, scenario_names)
     result = true
-    scenarios.each do |scenario|
-      scenario_validator = scenario(validator, scenario)
-      result = result & validate(scenario_validator, subject, state)
+    scenario_names.each do |scenario_name|
+      scenario_reflection = validator_reflection.get(scenario_name, strict: false)
+
+      if scenario_reflection.nil?
+        raise Error, "#{validator_reflection.constant.name} doesn't have a `#{scenario_name}' scenario accessor"
+      end
+
+      validator = scenario_reflection.constant
+
+      result = result & validate(validator, subject, state)
     end
 
     result
@@ -108,49 +86,5 @@ module Validate
     end
 
     result
-  end
-
-  def validator(subject)
-    subject_const = subject_const(subject)
-
-    assure_validator(subject_const)
-    get_validator(subject_const)
-  end
-
-  def subject_const(subject)
-    [Module, Class].include?(subject.class) ? subject : subject.class
-  end
-
-  def assure_validator(subject_const)
-    unless validator_const?(subject_const)
-      raise Error, "#{subject_const.name} doesn't have a `Validator' namespace"
-    end
-  end
-
-  def validator_const?(subject_const)
-    subject_const.const_defined?(:Validator)
-  end
-
-  def get_validator(subject_const)
-    subject_const.const_get(:Validator)
-  end
-
-  def scenario(validator, scenario)
-    assure_scenario(validator, scenario)
-    get_scenario(validator, scenario)
-  end
-
-  def assure_scenario(validator, scenario)
-    unless scenario_method?(validator, scenario)
-      raise Error, "#{validator.name} doesn't have a `#{scenario}' scenario method"
-    end
-  end
-
-  def scenario_method?(validator, scenario)
-    validator.respond_to?(scenario)
-  end
-
-  def get_scenario(validator, scenario)
-    validator.public_send(scenario)
   end
 end
