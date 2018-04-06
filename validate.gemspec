@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 Gem::Specification.new do |s|
   s.name = 'evt-validate'
-  s.version = '0.3.1.5'
+  s.version = '0.4.0.0'
   s.summary = 'Interface and protocol for validating and validation discovery'
   s.description = ' '
 
@@ -14,6 +14,8 @@ Gem::Specification.new do |s|
   s.files = Dir.glob('{lib}/**/*')
   s.platform = Gem::Platform::RUBY
   s.required_ruby_version = '>= 2.3.3'
+
+  s.add_runtime_dependency 'evt-reflect'
 
   s.add_development_dependency 'test_bench'
 end

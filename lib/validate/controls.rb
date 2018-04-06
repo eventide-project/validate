@@ -1,3 +1,5 @@
+require 'validate/controls/validate/default'
+require 'validate/controls/validate/scenarios'
 require 'validate/controls/validator/default'
 require 'validate/controls/validator/state'
 require 'validate/controls/validator/not_boolean_result'

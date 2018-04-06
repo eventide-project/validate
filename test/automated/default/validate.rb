@@ -1,11 +1,16 @@
 require_relative '../automated_init'
 
 context "Default Validate" do
-  example = Validate::Controls::Validator::Default.example
+  [Validate::Controls::Validate::Default, Validate::Controls::Validator::Default].each do |control|
 
-  result = Validate.(example)
+    context "#{control.name}" do
+      example = control.example
 
-  test "Validates an input" do
-    assert(result)
+      result = Validate.(example)
+
+      test "Validates an input" do
+        assert(result)
+      end
+    end
   end
 end
