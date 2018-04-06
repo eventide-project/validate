@@ -1,23 +1,30 @@
 require_relative '../automated_init'
 
 context "Scenarios" do
-  example = Validate::Controls::Validator::Scenarios.example
+  [Validate::Controls::Validate::Scenarios, Validate::Controls::Validator::Scenarios].each do |control|
 
-  scenarios = [:some_scenario, :some_other_scenario]
+    context "#{control.name}" do
+      example = control.example
 
-  state = []
-  result = Validate.(example, state, scenarios: scenarios)
+      # example = Validate::Controls::Validator::Scenarios.example
 
-  test "Result is the intersection of the results" do
-    assert(result == false)
-  end
+      scenarios = [:some_scenario, :some_other_scenario]
 
-  context "Scenarios are invoked" do
-    assert(state.length == 2)
+      state = []
+      result = Validate.(example, state, scenarios: scenarios)
 
-    scenarios.each do |scenario|
-      test "#{scenario.inspect}" do
-        assert(state.include? scenario)
+      test "Result is the intersection of the results" do
+        assert(result == false)
+      end
+
+      context "Scenarios are invoked" do
+        assert(state.length == 2)
+
+        scenarios.each do |scenario|
+          test "#{scenario.inspect}" do
+            assert(state.include? scenario)
+          end
+        end
       end
     end
   end
