@@ -20,7 +20,7 @@ module Validate
   end
 
   def validator_reflection(subject)
-    subject_constant = Reflect.subject_constant(subject)
+    subject_constant = Reflect.constant(subject)
 
     validator_name = validator_name(subject_constant)
 
