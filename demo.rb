@@ -1,9 +1,9 @@
 require_relative 'init'
 require 'test_bench'; TestBench.activate
 
-# By Default, validators are in an inner module named "Validate"
-# that implements a "call" method that accepts an instance of the
-# object being validated
+# Validators are in an inner module named "Validate"
+# that implements a "call" method that accepts an
+# instance of the object being validated
 
 class Example
   attr_accessor :some_attr
