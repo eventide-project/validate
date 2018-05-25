@@ -1,13 +1,13 @@
 require_relative 'init'
 require 'test_bench'; TestBench.activate
 
-# By Default, validators are in an inner module named "Validator"
+# By Default, validators are in an inner module named "Validate"
 # that implements a "call" method that accepts an instance of the
 # object being validated
 class Example
   attr_accessor :some_attr
 
-  module Validator
+  module Validate
     def self.call(example)
       !example.some_attr.nil?
     end
@@ -38,7 +38,7 @@ end
 class Example2
   attr_accessor :some_attr
 
-  module Validator
+  module Validate
     def self.some_particular_scenario
       SomeValidator
     end
@@ -100,7 +100,7 @@ end
 class Example3
   attr_accessor :some_attr
 
-  module Validator
+  module Validate
     def self.some_particular_scenario
       SomeValidator
     end
@@ -150,7 +150,7 @@ end
 class Example4
   attr_accessor :some_attr
 
-  module Validator
+  module Validate
     def self.call(example, info=[])
       info << 'All is well'
       true
@@ -181,6 +181,6 @@ test "Not valid" do
   refute(valid)
 end
 
-test "Validator info is collected" do
+test "Validate info is collected" do
   assert(info == ['All is well', 'Oh oh! Something went wrong'])
 end
