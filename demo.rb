@@ -4,6 +4,7 @@ require 'test_bench'; TestBench.activate
 # By Default, validators are in an inner module named "Validate"
 # that implements a "call" method that accepts an instance of the
 # object being validated
+
 class Example
   attr_accessor :some_attr
 
@@ -30,11 +31,11 @@ test "Is valid" do
   assert(valid)
 end
 
-
 # Validation rules aren't always the same
 # Use specialized validators for particular scenarios
 # Provide accessor methods that retrieve the
 # scenario validators
+
 class Example2
   attr_accessor :some_attr
 
@@ -72,6 +73,7 @@ test "Not valid" do
 end
 
 e.some_attr = 'something' # some_attr is no longer nil
+
 valid = Validate.(e, scenario: :some_particular_scenario)
 
 test "Is valid" do
@@ -79,6 +81,7 @@ test "Is valid" do
 end
 
 e.some_attr = 'some invalid value'
+
 valid = Validate.(e, scenario: :some_other_scenario)
 
 test "Not valid" do
@@ -86,17 +89,18 @@ test "Not valid" do
 end
 
 e.some_attr = 'something else'
+
 valid = Validate.(e, scenario: :some_other_scenario)
 
 test "Is valid" do
   assert(valid)
 end
 
-
 # Many validators can be called at once by passing
 # a list of scenarios rather than a single scenario.
 # If any of the validators return false, the list
 # of validation is considered false.
+
 class Example3
   attr_accessor :some_attr
 
@@ -140,13 +144,13 @@ test "Not valid" do
   refute(valid)
 end
 
-
 # Validators can provide contextual information
 # such as error messages, warnings, or any other
 # arbitrary information as part of the execution
 # of a validator. Pass an array, or any object
 # that implements the append (<<) operator, and
 # the validators can add information to it.
+
 class Example4
   attr_accessor :some_attr
 
@@ -181,6 +185,6 @@ test "Not valid" do
   refute(valid)
 end
 
-test "Validate info is collected" do
+test "Validator info is collected" do
   assert(info == ['All is well', 'Oh oh! Something went wrong'])
 end
