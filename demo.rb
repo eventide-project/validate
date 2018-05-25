@@ -128,7 +128,7 @@ class Example3
 end
 
 e = Example3.new
-e.some_attr = 'something else'
+e.some_attr = 'something else' # causes both scenarios to be valid
 
 valid = Validate.(e, scenarios: [:some_particular_scenario, :some_other_scenario])
 
@@ -136,7 +136,15 @@ test "Is valid" do
   assert(valid)
 end
 
-e.some_attr = 'something'
+e.some_attr = 'something and other thing' # causes only the first scenario to be valid
+
+valid = Validate.(e, scenarios: [:some_particular_scenario, :some_other_scenario])
+
+test "Not valid" do
+  refute(valid)
+end
+
+e.some_attr = 'else other thing' # causes only the second scenario to be valid
 
 valid = Validate.(e, scenarios: [:some_particular_scenario, :some_other_scenario])
 
@@ -147,16 +155,16 @@ end
 # Validators can provide contextual information
 # such as error messages, warnings, or any other
 # arbitrary information as part of the execution
-# of a validator. Pass an array, or any object
-# that implements the append (<<) operator, and
-# the validators can add information to it.
+# of a validator.
+# Pass an state object that can be used to collect
+# info, messages, etc, from the validators.
 
 class Example4
   attr_accessor :some_attr
 
   module Validate
-    def self.call(example, info=[])
-      info << 'All is well'
+    def self.call(example, state=[])
+      state << 'All is well'
       true
     end
 
@@ -164,9 +172,20 @@ class Example4
       SomeScenario
     end
 
+    def self.some_other_scenario
+      SomeOtherScenario
+    end
+
     module SomeScenario
-      def self.call(example, info=[])
-        info << 'Oh oh! Something went wrong'
+      def self.call(example, state=[])
+        state << 'Oh oh! SomeScenario went wrong'
+        false
+      end
+    end
+
+    module SomeOtherScenario
+      def self.call(example, state=[])
+        state << 'Oh oh! SomeOtherScenario went wrong'
         false
       end
     end
@@ -175,9 +194,9 @@ end
 
 e = Example4.new
 
-info = []
-valid_1 = Validate.(e, info)
-valid_2 = Validate.(e, info, scenario: :some_scenario)
+state = []
+valid_1 = Validate.(e, state)
+valid_2 = Validate.(e, state, scenario: [:some_scenario, :some_other_scenario])
 
 valid = valid_1 && valid_2
 
@@ -185,6 +204,10 @@ test "Not valid" do
   refute(valid)
 end
 
-test "Validator info is collected" do
-  assert(info == ['All is well', 'Oh oh! Something went wrong'])
+test "Validator state is collected" do
+  assert(state == [
+    'All is well',
+    'Oh oh! SomeScenario went wrong',
+    'Oh oh! SomeOtherScenario went wrong'
+  ])
 end
