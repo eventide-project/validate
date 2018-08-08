@@ -65,7 +65,9 @@ assert(state == ['All is well'])
 
 Errors may be collected via the second optional `state` parameter on the `Validate` protocol. In the example above, state is an array, but it could just as easily be a hash, or whatever type of object you want.
 
-## Advanced Usage: Multiple Validation Scenarios
+## Advanced Usage
+
+### Multiple Validation Scenarios
 
 It can be useful to have specialized validation scenarios, in order to validate an object in different contexts. Scenarios should not be implemented unless there is a need for them, because they are not needed most of the time.
 
