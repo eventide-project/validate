@@ -65,37 +65,6 @@ assert(state == ['All is well'])
 
 Errors may be collected via the second optional `state` parameter on the `Validate` protocol. In the example above, state is an array, but it could just as easily be a hash, or whatever type of object you want.
 
-## Rationale
-
-What sets this library apart from other similar libraries in ruby is the lack of a DSL, or a framework for generated error messaging. This is because validation in plain ruby is quite simple and high level already, and generated error messaging tends to result in poor error messages being presented to the user.
-
-Some common examples:
-
-```ruby
-
-# simple
-
-validates :name, presence: true # rails
-state << "a name is required" if example.name.nil? # validate
-
-# more complex
-
-validates :size, inclusion: { in: %w(small medium large) } # rails
-
-unless %w(small medium large).include?(example.size) # validate
-  state << "size must be either small, medium, or large"
-end
-
-# still more complex
-
-validates :quantity, numericality: { is_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 10 } # rails
-
-quantity = example.quantity # validate
-state << "quantity is not a number" unless quantity.to_i.to_s == quantity
-state << "quantity cannot be less than 0" unless quantity >= 0
-state << "quantity cannot be more than 10" unless quantity <= 10
-```
-
 ## Advanced Usage: Multiple Validation Scenarios
 
 It can be useful to have specialized validation scenarios, in order to validate an object in different contexts. Scenarios should not be implemented unless there is a need for them, because they are not needed most of the time.
@@ -253,6 +222,36 @@ test "Validator state is collected" do
 end
 ```
 
+## Comparison with Validation in Rails
+
+What sets this library apart from other similar libraries in Ruby is the lack of a DSL, or a framework for generated error messaging. This is because validation in plain ruby is quite simple and high level already, and generated error messaging tends to result in poor error messages being presented to the user.
+
+Some common examples:
+
+```ruby
+
+# simple
+
+validates :name, presence: true # rails
+state << "a name is required" if example.name.nil? # validate
+
+# more complex
+
+validates :size, inclusion: { in: %w(small medium large) } # rails
+
+unless %w(small medium large).include?(example.size) # validate
+  state << "size must be either small, medium, or large"
+end
+
+# still more complex
+
+validates :quantity, numericality: { is_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 10 } # rails
+
+quantity = example.quantity # validate
+state << "quantity is not a number" unless quantity.to_i.to_s == quantity
+state << "quantity cannot be less than 0" unless quantity >= 0
+state << "quantity cannot be more than 10" unless quantity <= 10
+```
 
 ## License
 
