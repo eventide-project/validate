@@ -4,8 +4,8 @@ context "Class Has No Validator Namespace" do
   example = Validate::Controls::NoValidator.example
 
   test "Error" do
-    assert proc { Validate.(example) } do
-      raises_error? Validate::Error
+    assert_raises Validate::Error do
+      Validate.(example)
     end
   end
 end
