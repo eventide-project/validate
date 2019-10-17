@@ -6,7 +6,7 @@ context "Collect State When Validator Has No State Parameter" do
   state = []
 
   test "Error" do
-    assert_raises Validate::Error do
+    assert_raises(Validate::Error) do
       Validate.(example, state)
     end
   end
