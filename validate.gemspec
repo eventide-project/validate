@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 Gem::Specification.new do |s|
   s.name = 'evt-validate'
-  s.version = '1.0.0.0'
+  s.version = '2.0.0.0'
   s.summary = 'Interface and protocol for validating and validation discovery'
   s.description = ' '
 
