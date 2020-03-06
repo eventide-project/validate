@@ -1,6 +1,10 @@
-# validate
+# Validate
 
 Interface and protocol for validating and validation discovery
+
+## Rationale
+
+It's just Ruby! No magic. No opaque DSLs. Just plain old Ruby programming that everyone can see and understand at a glance.
 
 ## Synopsis
 
