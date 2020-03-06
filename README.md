@@ -255,7 +255,7 @@ end
 # Yet more complex example:
 
 # Using Rails validations
-validates :quantity, numericality: { is_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 10 } # rails
+validates :quantity, numericality: { is_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 10 }
 
 # Using the Validate library
 quantity = example.quantity
