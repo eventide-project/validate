@@ -247,7 +247,7 @@ state << "a name is required" if example.name.nil?
 validates :size, inclusion: { in: %w(small medium large) }
 
 # Using the Validate library
-unless %w(small medium large).include?(example.size) # validate
+unless %w(small medium large).include?(example.size)
   state << "size must be either small, medium, or large"
 end
 
