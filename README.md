@@ -232,24 +232,33 @@ Some common examples:
 
 ```ruby
 
-# simple
+# Simple example:
 
-validates :name, presence: true # rails
-state << "a name is required" if example.name.nil? # validate
+# Using Rails validations
+validates :name, presence: true
 
-# more complex
+# Using the Validate library
+state << "a name is required" if example.name.nil?
 
-validates :size, inclusion: { in: %w(small medium large) } # rails
 
+# More complex example:
+
+# Using Rails validations
+validates :size, inclusion: { in: %w(small medium large) }
+
+# Using the Validate library
 unless %w(small medium large).include?(example.size) # validate
   state << "size must be either small, medium, or large"
 end
 
-# still more complex
 
+# Yet more complex example:
+
+# Using Rails validations
 validates :quantity, numericality: { is_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 10 } # rails
 
-quantity = example.quantity # validate
+# Using the Validate library
+quantity = example.quantity
 state << "quantity is not a number" unless quantity.to_i.to_s == quantity
 state << "quantity cannot be less than 0" unless quantity >= 0
 state << "quantity cannot be more than 10" unless quantity <= 10
